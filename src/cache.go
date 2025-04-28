@@ -100,14 +100,7 @@ func (c *MyCache) add(key string, value interface{}, exp int64) {
 	return
 }
 func (c *MyCache) SetNX(key string, value interface{}) bool {
-	c.mu.Lock()
-	defer c.mu.Unlock()
-	if _, ok := c.cache[key]; ok {
-		return false
-	}
-	exp := c.genExpUnix(expirationNon)
-	c.add(key, value, exp)
-	return true
+	return c.SetNXWithExpiration(key, value, expirationNon)
 }
 func (c *MyCache) SetNXWithExpiration(key string, value interface{}, expiration int64) bool {
 	c.mu.Lock()
